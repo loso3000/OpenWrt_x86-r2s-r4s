@@ -16,6 +16,9 @@ mv -f .github/linux-firmware package/firmware/
 mv -f  .github/kernel-version.mk .github/kernel-5.10 .github/kernel-defaults.mk include/
 sed -i 's/ libelf//' tools/Makefile
 
+# Forced WiFi to enable
+sed -i 's/set wireless.radio\${devidx}.disabled=1/set wireless.radio\${devidx}.disabled=0/g' package/kernel/mac80211/files/lib/wifi/mac80211.sh
+
 kernel_v="$(cat include/kernel-5.10 | grep LINUX_KERNEL_HASH-5.10* | cut -f 2 -d - | cut -f 1 -d ' ')"
 sed -i "s?targets/%S/packages?packages/%A/kmods/$kernel_v?" include/feeds.mk
 echo "$(date +"%s")" >version.date
